@@ -21,8 +21,6 @@ public class SliderColorChanger : MonoBehaviour
     {
         float factor = value / _slider.maxValue;
 
-        Debug.Log(factor);
-
         Color clr = new Color();
         clr.r = Mathf.MoveTowards(_minColor.r, _maxColor.r, factor);
         clr.g = Mathf.MoveTowards(_minColor.g, _maxColor.g, factor);
