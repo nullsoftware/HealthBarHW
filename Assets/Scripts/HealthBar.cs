@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,24 +9,32 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     [SerializeField] private float _animationSpeed = 40;
-    [SerializeField] private float _currentValue;
+    [SerializeField] private PlayerInfo _playerInfo;
 
     private Slider _slider;
-    
+    private Coroutine _updateCoroutine;
+
     private void Start()
     {
         _slider = GetComponent<Slider>();
-        _currentValue = _slider.value;
+        _slider.value = _playerInfo.Health;
     }
 
-    private void Update()
+    public void Refresh()
     {
-        if (_currentValue != _slider.value)
-            _slider.value = Mathf.MoveTowards(_slider.value, _currentValue, _animationSpeed * Time.deltaTime);
+        if (_updateCoroutine != null)
+            StopCoroutine(_updateCoroutine);
+        _updateCoroutine = StartCoroutine(UpdateBar());
     }
 
-    public void UpdateHealthBar(int health)
+    private IEnumerator UpdateBar()
     {
-        _currentValue = health;
+        while (_playerInfo.Health != _slider.value)
+        {
+            _slider.value = Mathf.MoveTowards(
+                _slider.value, _playerInfo.Health, _animationSpeed * Time.deltaTime);      
+
+            yield return null;
+        }
     }
 }

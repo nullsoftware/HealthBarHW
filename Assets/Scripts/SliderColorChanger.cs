@@ -21,12 +21,12 @@ public class SliderColorChanger : MonoBehaviour
     {
         float factor = value / _slider.maxValue;
 
-        Color clr = new Color();
-        clr.r = Mathf.MoveTowards(_minColor.r, _maxColor.r, factor);
-        clr.g = Mathf.MoveTowards(_minColor.g, _maxColor.g, factor);
-        clr.b = Mathf.MoveTowards(_minColor.b, _maxColor.b, factor);
-        clr.a = 1;
+        Color color = new Color();
+        color.r = Mathf.MoveTowards(_minColor.r, _maxColor.r, factor);
+        color.g = Mathf.MoveTowards(_minColor.g, _maxColor.g, factor);
+        color.b = Mathf.MoveTowards(_minColor.b, _maxColor.b, factor);
+        color.a = 1;
 
-        _sliderFill.color = clr;
+        _sliderFill.color = color;
     }
 }
