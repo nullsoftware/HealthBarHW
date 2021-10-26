@@ -18,8 +18,11 @@ public class HealthBar : MonoBehaviour
     {
         _slider = GetComponent<Slider>();
         _slider.value = _playerInfo.Health;
+        _slider.minValue = _playerInfo.MinHealth;
+        _slider.maxValue = _playerInfo.MaxHealth;
     }
 
+    // attached to PlayerInfo.HealthChanged in editor.
     public void Refresh()
     {
         if (_updateCoroutine != null)
@@ -32,7 +35,7 @@ public class HealthBar : MonoBehaviour
         while (_playerInfo.Health != _slider.value)
         {
             _slider.value = Mathf.MoveTowards(
-                _slider.value, _playerInfo.Health, _animationSpeed * Time.deltaTime);      
+                _slider.value, _playerInfo.Health, _animationSpeed * Time.deltaTime);
 
             yield return null;
         }

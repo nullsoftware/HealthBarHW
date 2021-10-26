@@ -6,6 +6,8 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Collider2D))]
 public class PlayerInfo : MonoBehaviour
 {
+    [SerializeField] private int _minHealth = 0;
+    [SerializeField] private int _maxHealth = 100;
     [SerializeField] private int _health = 100;
 
     public UnityEvent<int> HealthChanged;
@@ -16,14 +18,19 @@ public class PlayerInfo : MonoBehaviour
         private set
         {
             if (_health != value)
-                _health = value;
+                _health = Mathf.Min(_maxHealth, value);
 
             HealthChanged?.Invoke(_health);
         }
     }
 
+    public int MinHealth => _minHealth;
+
+    public int MaxHealth => _maxHealth;
+
     private void Start()
     {
+        _health = Mathf.Min(_maxHealth, _health);
         //HealthChanged?.Invoke(_health);
     }
 
@@ -37,7 +44,7 @@ public class PlayerInfo : MonoBehaviour
 
     public void DoDamage()
     {
-        if (Health <= 0)
+        if (Health <= MinHealth)
             return;
 
         Health -= 10;
@@ -45,7 +52,7 @@ public class PlayerInfo : MonoBehaviour
 
     public void DoHeal()
     {
-        if (Health >= 100)
+        if (Health >= MaxHealth)
             return;
 
         Health += 10;
