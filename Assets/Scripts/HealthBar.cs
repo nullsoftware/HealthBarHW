@@ -19,10 +19,19 @@ public class HealthBar : MonoBehaviour
         _slider = GetComponent<Slider>();
         _slider.value = _playerInfo.Health;
         _slider.minValue = _playerInfo.MinHealth;
-        _slider.maxValue = _playerInfo.MaxHealth;
+        _slider.maxValue = _playerInfo.MaxHealth;  
     }
 
-    // attached to PlayerInfo.HealthChanged in editor.
+    private void OnEnable()
+    {
+        _playerInfo.HealthChanged += (_) => Refresh();
+    }
+
+    private void OnDisable()
+    {
+        _playerInfo.HealthChanged -= (_) => Refresh();
+    }
+
     public void Refresh()
     {
         if (_updateCoroutine != null)

@@ -10,7 +10,7 @@ public class PlayerInfo : MonoBehaviour
     [SerializeField] private int _maxHealth = 100;
     [SerializeField] private int _health = 100;
 
-    public UnityEvent<int> HealthChanged;
+    public event UnityAction<int> HealthChanged;
 
     public int Health
     {
